@@ -213,3 +213,4 @@ __pycache__/
 
 # db
 backend/memory/db
+backend/memory/db/*
