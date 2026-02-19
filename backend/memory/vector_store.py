@@ -32,14 +32,21 @@ def index_file(filepath: str) -> str:
     )
     return f"Indexed: {filepath}"
 
+EXCLUDED_DIRS = {
+    "node_modules", "__pycache__", ".git", 
+    "db", ".env", "dist", "build", ".vite"
+}
+
+INCLUDED_EXTENSIONS = {".py", ".md", ".txt", ".js", ".jsx", ".ts", ".tsx", ".json"}
+
 def index_directory(directory: str) -> str:
-    """Index all files in a directory"""
     results = []
     for root, dirs, files in os.walk(directory):
-        dirs[:] = [d for d in dirs if not d.startswith(".")]
+        # Skip excluded directories
+        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         for filename in files:
-            # Only index text-based files
-            if filename.endswith((".py", ".md", ".txt", ".js", ".ts", ".json")):
+            if any(filename.endswith(ext) for ext in INCLUDED_EXTENSIONS):
+                # Skip package.json files inside node_modules paths
                 filepath = os.path.join(root, filename)
                 result = index_file(filepath)
                 results.append(result)

@@ -1,4 +1,4 @@
-export default function Header({ onIndex, indexing, status }) {
+export default function Header({ onIndex, indexing, status, onSettings }) {
   return (
     <div style={{
       padding: "16px 24px",
@@ -10,9 +10,7 @@ export default function Header({ onIndex, indexing, status }) {
     }}>
       <div>
         <h1 style={{ margin: 0, fontSize: "18px", color: "#4fc3f7" }}>AgentCraft</h1>
-        <p style={{ margin: 0, fontSize: "11px", color: "#555" }}>
-          local multi-agent AI copilot
-        </p>
+        <p style={{ margin: 0, fontSize: "11px", color: "#555" }}>local multi-agent AI copilot</p>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
         {status && <span style={{ fontSize: "11px", color: "#81c784" }}>{status}</span>}
@@ -31,6 +29,21 @@ export default function Header({ onIndex, indexing, status }) {
           }}
         >
           {indexing ? "indexing..." : "index codebase"}
+        </button>
+        <button
+          onClick={onSettings}
+          style={{
+            padding: "8px 14px",
+            background: "#0d0d1a",
+            border: "1px solid #333",
+            borderRadius: "4px",
+            color: "#555",
+            cursor: "pointer",
+            fontSize: "12px",
+            fontFamily: "monospace"
+          }}
+        >
+          settings
         </button>
       </div>
     </div>

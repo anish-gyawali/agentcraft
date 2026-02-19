@@ -30,8 +30,18 @@ def root():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
+    grounded_message = f"""You are AgentCraft, an AI copilot for the codebase at {PROJECT_ROOT}.
+
+IMPORTANT RULES:
+- Always use search_code tool first to find relevant files
+- Only use list_files on specific subdirectories like {PROJECT_ROOT}/backend, never on the full project root
+- Never list node_modules or frontend/node_modules
+- Base your answers only on what the tools return
+
+User question: {request.message}"""
+
     result = agent.invoke({
-        "messages": [HumanMessage(content=f"Project root is {PROJECT_ROOT}. {request.message}")]
+        "messages": [HumanMessage(content=grounded_message)]
     })
 
     steps = []
