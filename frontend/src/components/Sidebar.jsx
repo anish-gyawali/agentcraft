@@ -99,6 +99,7 @@ export default function Sidebar({ conversations, onNew, onSelect, activeId }) {
       }}>
         <div>RTX 5070 · 12GB</div>
         <div>Local · No API</div>
+        <div>© 2026 Anish Gyawali</div>
       </div>
     </div>
   )

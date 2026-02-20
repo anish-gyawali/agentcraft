@@ -11,7 +11,7 @@ export default function App() {
     conversations, activeId, messages,
     input, setInput, loading, indexing,
     status, mode, setMode, agentStates,
-    sendMessage, indexCodebase, newChat, selectChat, bottomRef
+    sendMessage, indexPDF, indexCodebase, newChat, selectChat, bottomRef
   } = useChat()
 
   const { settings } = useSettings()
@@ -29,6 +29,7 @@ export default function App() {
         model={settings.model}
         indexing={indexing}
         onIndex={indexCodebase}
+        onIndexPDF={indexPDF}
       />
 
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>

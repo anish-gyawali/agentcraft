@@ -1,4 +1,4 @@
-export default function TopBar({ status, model = "mistral-nemo", indexing, onIndex }) {
+export default function TopBar({ status, model = "mistral-nemo", indexing, onIndex, onIndexPDF }) {
     return (
         <div style={{
             height: "52px",
@@ -63,6 +63,24 @@ export default function TopBar({ status, model = "mistral-nemo", indexing, onInd
                     onMouseLeave={e => { e.target.style.borderColor = "var(--border)" }}
                 >
                     {indexing ? "Indexing..." : "Index Codebase"}
+                </button>
+                <button
+                    onClick={onIndexPDF}
+                    style={{
+                        padding: "6px 14px",
+                        background: "transparent",
+                        border: "1px solid var(--border)",
+                        borderRadius: "var(--radius-btn)",
+                        color: "var(--text-secondary)",
+                        cursor: "pointer",
+                        fontSize: "12px",
+                        fontFamily: "var(--font-ui)",
+                        transition: "all 0.15s"
+                    }}
+                    onMouseEnter={e => e.target.style.borderColor = "#F59E0B"}
+                    onMouseLeave={e => e.target.style.borderColor = "var(--border)"}
+                >
+                    Index PDF
                 </button>
             </div>
         </div>

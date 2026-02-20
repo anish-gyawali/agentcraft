@@ -186,7 +186,8 @@ export default function AgentPanel({ agentStates, mode, onModeChange }) {
                 }}>
                     {[
                         { value: "simple", label: "Simple" },
-                        { value: "multi_agent", label: "Multi-Agent" }
+                        { value: "multi_agent", label: "Multi-Agent" },
+                        { value: "book", label: "Book" }
                     ].map(m => (
                         <button
                             key={m.value}

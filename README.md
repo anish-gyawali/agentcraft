@@ -156,6 +156,8 @@ agentcraft/
 │   │   └── vector_store.py  — ChromaDB embeddings
 │   └── api/
 │       └── routes.py        — FastAPI endpoints
+│   └── data/
+│       └── cleancode.pdf    — Your pdf file here
 ├── frontend/
 │   └── src/
 │       ├── components/      — UI components
