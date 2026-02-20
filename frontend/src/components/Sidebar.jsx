@@ -1,39 +1,61 @@
 export default function Sidebar({ conversations, onNew, onSelect, activeId }) {
   return (
     <div style={{
-      width: "240px",
-      background: "#0d0d1a",
-      borderRight: "1px solid #1a1a2e",
+      width: "220px",
+      background: "var(--surface)",
+      borderRight: "1px solid var(--border)",
       display: "flex",
       flexDirection: "column",
-      padding: "16px 0"
+      flexShrink: 0
     }}>
-      <div style={{ padding: "0 16px 16px", borderBottom: "1px solid #1a1a2e" }}>
+      <div style={{ padding: "16px" }}>
         <button
           onClick={onNew}
           style={{
             width: "100%",
-            padding: "10px",
-            background: "#0d2137",
-            border: "1px solid #4fc3f7",
-            borderRadius: "6px",
-            color: "#4fc3f7",
+            padding: "10px 14px",
+            background: "var(--elevated)",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-btn)",
+            color: "var(--text-primary)",
             cursor: "pointer",
-            fontFamily: "monospace",
-            fontSize: "12px"
+            fontSize: "13px",
+            fontFamily: "var(--font-ui)",
+            fontWeight: 500,
+            textAlign: "left",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            transition: "all 0.15s"
           }}
+          onMouseEnter={e => e.currentTarget.style.borderColor = "#2563EB"}
+          onMouseLeave={e => e.currentTarget.style.borderColor = "var(--border)"}
         >
-          + new chat
+          <span style={{ fontSize: "16px", lineHeight: 1 }}>+</span>
+          New Task
         </button>
       </div>
 
-      <div style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
-        <p style={{ padding: "8px 16px", fontSize: "10px", color: "#333", textTransform: "uppercase" }}>
-          recent chats
-        </p>
+      <div style={{
+        padding: "0 16px 8px",
+        fontSize: "10px",
+        color: "var(--text-muted)",
+        fontFamily: "var(--font-mono)",
+        letterSpacing: "0.08em",
+        textTransform: "uppercase"
+      }}>
+        Recent Tasks
+      </div>
+
+      <div style={{ flex: 1, overflowY: "auto", padding: "0 8px" }}>
         {conversations.length === 0 && (
-          <p style={{ padding: "8px 16px", fontSize: "12px", color: "#444" }}>
-            no chats yet
+          <p style={{
+            padding: "8px",
+            fontSize: "12px",
+            color: "var(--text-muted)",
+            fontFamily: "var(--font-ui)"
+          }}>
+            No tasks yet
           </p>
         )}
         {conversations.map(convo => (
@@ -41,15 +63,25 @@ export default function Sidebar({ conversations, onNew, onSelect, activeId }) {
             key={convo.id}
             onClick={() => onSelect(convo.id)}
             style={{
-              padding: "10px 16px",
+              padding: "10px 12px",
+              borderRadius: "var(--radius-item)",
               cursor: "pointer",
-              background: activeId === convo.id ? "#1a1a2e" : "transparent",
-              borderLeft: activeId === convo.id ? "2px solid #4fc3f7" : "2px solid transparent",
+              background: activeId === convo.id ? "var(--elevated)" : "transparent",
+              borderLeft: activeId === convo.id ? "2px solid #2563EB" : "2px solid transparent",
               fontSize: "12px",
-              color: activeId === convo.id ? "#fff" : "#555",
+              color: activeId === convo.id ? "var(--text-primary)" : "var(--text-secondary)",
               whiteSpace: "nowrap",
               overflow: "hidden",
-              textOverflow: "ellipsis"
+              textOverflow: "ellipsis",
+              marginBottom: "2px",
+              transition: "all 0.15s",
+              fontFamily: "var(--font-ui)"
+            }}
+            onMouseEnter={e => {
+              if (activeId !== convo.id) e.currentTarget.style.background = "var(--elevated)"
+            }}
+            onMouseLeave={e => {
+              if (activeId !== convo.id) e.currentTarget.style.background = "transparent"
             }}
           >
             {convo.title}
@@ -57,13 +89,16 @@ export default function Sidebar({ conversations, onNew, onSelect, activeId }) {
         ))}
       </div>
 
-      <div style={{ padding: "16px", borderTop: "1px solid #1a1a2e" }}>
-        <p style={{ fontSize: "10px", color: "#333" }}>
-          running on RTX 5070
-        </p>
-        <p style={{ fontSize: "10px", color: "#333" }}>
-          mistral-nemo — local
-        </p>
+      <div style={{
+        padding: "16px",
+        borderTop: "1px solid var(--border-subtle)",
+        fontSize: "10px",
+        color: "var(--text-muted)",
+        fontFamily: "var(--font-mono)",
+        lineHeight: 1.8
+      }}>
+        <div>RTX 5070 · 12GB</div>
+        <div>Local · No API</div>
       </div>
     </div>
   )

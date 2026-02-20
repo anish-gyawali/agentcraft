@@ -2,45 +2,57 @@ export default function InputBar({ input, setInput, onSend, loading }) {
   return (
     <div style={{
       padding: "16px 24px",
-      borderTop: "1px solid #1a1a2e",
-      background: "#0d0d1a",
+      borderTop: "1px solid var(--border)",
+      background: "var(--surface)",
       display: "flex",
-      gap: "10px"
+      gap: "10px",
+      alignItems: "flex-end"
     }}>
-      <input
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        onKeyDown={e => e.key === "Enter" && onSend()}
-        placeholder="Ask about your codebase..."
-        disabled={loading}
-        style={{
-          flex: 1,
-          padding: "12px 16px",
-          background: "#0a0a0f",
-          border: "1px solid #1a1a2e",
-          borderRadius: "6px",
-          color: "#fff",
-          fontFamily: "monospace",
-          fontSize: "13px",
-          outline: "none"
-        }}
-      />
+      <div style={{ flex: 1, position: "relative" }}>
+        <input
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && !e.shiftKey && onSend()}
+          placeholder="Describe a task for your agents..."
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "14px 18px",
+            background: "var(--elevated)",
+            border: "1px solid var(--border)",
+            borderRadius: "var(--radius-input)",
+            color: "var(--text-primary)",
+            fontFamily: "var(--font-ui)",
+            fontSize: "14px",
+            outline: "none",
+            transition: "border-color 0.15s",
+            boxSizing: "border-box"
+          }}
+          onFocus={e => e.target.style.borderColor = "#2563EB"}
+          onBlur={e => e.target.style.borderColor = "var(--border)"}
+        />
+      </div>
       <button
         onClick={onSend}
         disabled={loading}
         style={{
-          padding: "12px 20px",
-          background: loading ? "#1a1a2e" : "#4fc3f7",
+          padding: "14px 22px",
+          background: loading
+            ? "var(--elevated)"
+            : "linear-gradient(135deg, #2563EB, #1d4ed8)",
           border: "none",
-          borderRadius: "6px",
-          color: loading ? "#555" : "#0a0a0f",
+          borderRadius: "var(--radius-btn)",
+          color: loading ? "var(--text-muted)" : "#fff",
           cursor: loading ? "default" : "pointer",
-          fontFamily: "monospace",
-          fontWeight: "bold",
-          fontSize: "13px"
+          fontFamily: "var(--font-ui)",
+          fontWeight: 600,
+          fontSize: "14px",
+          transition: "all 0.15s",
+          flexShrink: 0,
+          boxShadow: loading ? "none" : "0 4px 12px rgba(37,99,235,0.3)"
         }}
       >
-        send
+        {loading ? "Working..." : "Run"}
       </button>
     </div>
   )

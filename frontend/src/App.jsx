@@ -1,54 +1,68 @@
 import { useChat } from "./hooks/useChat"
 import { useSettings } from "./hooks/useSettings"
-import Header from "./components/Header"
+import TopBar from "./components/TopBar"
 import Sidebar from "./components/Sidebar"
-import MessageList from "./components/MessageList"
+import Timeline from "./components/Timeline"
 import InputBar from "./components/InputBar"
-import SettingsPanel from "./components/SettingsPanel"
+import AgentPanel from "./components/AgentPanel"
 
 export default function App() {
   const {
     conversations, activeId, messages,
-    input, setInput, loading, indexing, status,
+    input, setInput, loading, indexing,
+    status, mode, setMode, agentStates,
     sendMessage, indexCodebase, newChat, selectChat, bottomRef
   } = useChat()
 
-  const { settings, open, setOpen, updateSetting } = useSettings()
+  const { settings } = useSettings()
 
   return (
     <div style={{
       display: "flex",
+      flexDirection: "column",
       height: "100vh",
-      background: "#0a0a0f",
-      color: "#fff",
-      fontFamily: "'Courier New', monospace",
-      position: "relative"
+      background: "var(--bg)",
+      color: "var(--text-primary)"
     }}>
-      <Sidebar
-        conversations={conversations}
-        onNew={newChat}
-        onSelect={selectChat}
-        activeId={activeId}
+      <TopBar
+        status={status}
+        model={settings.model}
+        indexing={indexing}
+        onIndex={indexCodebase}
       />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Header
-          onIndex={indexCodebase}
-          indexing={indexing}
-          status={status}
-          onSettings={() => setOpen(!open)}
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <Sidebar
+          conversations={conversations}
+          onNew={newChat}
+          onSelect={selectChat}
+          activeId={activeId}
         />
-        <MessageList messages={messages} loading={loading} bottomRef={bottomRef} />
-        <InputBar input={input} setInput={setInput} onSend={sendMessage} loading={loading} />
-      </div>
 
-      {open && (
-        <SettingsPanel
-          settings={settings}
-          onUpdate={updateSetting}
-          onClose={() => setOpen(false)}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+          <Timeline
+            messages={messages}
+            loading={loading}
+            bottomRef={bottomRef}
+            onSuggestion={(suggestion) => {
+              setInput(suggestion)
+              setTimeout(() => sendMessage(), 50)
+            }}
+          />
+          <InputBar
+            input={input}
+            setInput={setInput}
+            onSend={sendMessage}
+            loading={loading}
+          />
+        </div>
+
+        <AgentPanel
+          agentStates={agentStates}
+          mode={mode}
+          onModeChange={setMode}
         />
-      )}
+      </div>
     </div>
   )
 }
