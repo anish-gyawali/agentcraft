@@ -22,8 +22,12 @@ All three agents run on a local LLM (mistral-nemo via Ollama) with no data leavi
 
 ## Demo
 
+https://github.com/user-attachments/assets/1286e4c7-8e07-45ff-8643-04f374a109d5
 
-<img width="1680" height="1136" alt="multi agent" src="https://github.com/user-attachments/assets/36892e02-60d6-4c4e-ae52-bf7928b414ec" />
+
+
+
+
 
 ---
 
