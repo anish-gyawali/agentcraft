@@ -31,9 +31,9 @@ using open-source LLMs orchestrated with LangGraph.
 ## Project Progress
 - [x] Phase 0 — Environment Setup (WSL2, CUDA, PyTorch)
 - [x] Phase 1 — Local LLM Running (Ollama, Mistral, CodeLlama)
-- [ ] Phase 2 — Agent Framework (LangChain, LangGraph, Tool Use)
-- [ ] Phase 3 — Vector Memory & RAG
-- [ ] Phase 4 — Full System (API + React UI)
+- [x] Phase 2 — Agent Framework (LangChain, LangGraph, Tool Use)
+- [x] Phase 3 — Vector Memory & RAG
+- [x] Phase 4 — Full System (API + React UI)
 - [ ] Phase 5 — Evaluation & Fine-tuning
 
 ## Getting Started

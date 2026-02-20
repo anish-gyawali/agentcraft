@@ -2,10 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage
-from backend.agents import create_copilot_agent
+from backend.agents import create_copilot_agent, run_multi_agent
+from backend.tools.memory_tools import index_project
 import os
 
 PROJECT_ROOT = os.path.expanduser("~/agentcraft")
+
 app = FastAPI(title="AgentCraft API")
 
 app.add_middleware(
@@ -19,10 +21,18 @@ agent = create_copilot_agent()
 
 class ChatRequest(BaseModel):
     message: str
+    mode: str = "simple"  # "simple" or "multi_agent"
+
+class AgentResult(BaseModel):
+    agent: str
+    output: str
+    status: str
+    steps: list = []
 
 class ChatResponse(BaseModel):
     response: str
-    steps: list
+    steps: list = []
+    agents: list = []
 
 @app.get("/")
 def root():
@@ -30,14 +40,27 @@ def root():
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
+    if request.mode == "multi_agent":
+        results = run_multi_agent(request.message)
+        
+        agents = []
+        for agent_name in ["planner", "coder", "critic"]:
+            if results[agent_name]:
+                agents.append({
+                    "agent": agent_name,
+                    "output": results[agent_name]["output"],
+                    "status": results[agent_name]["status"],
+                    "steps": results[agent_name].get("steps", [])
+                })
+        
+        return ChatResponse(
+            response=results["final_response"],
+            agents=agents
+        )
+    
+    # Simple mode — single agent
     grounded_message = f"""You are AgentCraft, an AI copilot for the codebase at {PROJECT_ROOT}.
-
-IMPORTANT RULES:
-- Always use search_code tool first to find relevant files
-- Only use list_files on specific subdirectories like {PROJECT_ROOT}/backend, never on the full project root
-- Never list node_modules or frontend/node_modules
-- Base your answers only on what the tools return
-
+Always use search_code tool first. Never answer from memory alone.
 User question: {request.message}"""
 
     result = agent.invoke({
@@ -57,6 +80,5 @@ User question: {request.message}"""
 
 @app.post("/index")
 def index(directory: str = "."):
-    from backend.tools.memory_tools import index_project
     result = index_project.invoke(directory)
     return {"result": result}
