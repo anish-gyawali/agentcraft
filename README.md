@@ -85,7 +85,7 @@ Any NVIDIA GPU with 8GB+ VRAM will work.
 Requires NVIDIA GPU + Docker + NVIDIA Container Toolkit.
 
 ```bash
-git clone https://github.com/anishgyawali/agentcraft.git
+git clone https://github.com/anish-gyawali/agentcraft.git
 cd agentcraft
 ./setup.sh
 ```
@@ -107,7 +107,7 @@ That is it. Setup pulls all required models and starts all services automaticall
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/anishgyawali/agentcraft.git
+git clone https://github.com/anish-gyawali/agentcraft.git
 cd agentcraft
 ```
 
@@ -207,6 +207,6 @@ Images available at:
 
 ## Built By
 
-Anish Gyawali — [GitHub](https://github.com/anishgyawali)
+Anish Gyawali — [GitHub](https://github.com/anish-gyawali)
 
 Built as part of learning AI engineering from scratch — environment setup, local LLMs, agent frameworks, vector memory, multi-agent orchestration, and full stack deployment.
